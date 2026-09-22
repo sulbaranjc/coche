@@ -29,6 +29,72 @@ src/main/resources/
 └── templates/     Vistas Thymeleaf (listado y formulario) + layout compartido
 ```
 
+## Instalar MySQL
+
+Necesitas un servidor MySQL corriendo en tu maquina (version 8 recomendada). Elige las
+instrucciones de tu sistema operativo:
+
+### Ubuntu / Debian
+
+```bash
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl enable --now mysql
+```
+
+Configura la contrasena del usuario `root` (o crea un usuario propio, ver mas abajo):
+
+```bash
+sudo mysql
+```
+
+Dentro del cliente de MySQL:
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'tu-password';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+Comprueba que aceptas conexiones por red (la app se conecta por TCP a `localhost:3306`,
+no solo por socket). Edita `/etc/mysql/mysql.conf.d/mysqld.cnf` y confirma que tienes:
+
+```
+bind-address = 127.0.0.1
+```
+
+y que **no** existe una linea `skip-networking`. Si haces algun cambio, reinicia el
+servicio con `sudo systemctl restart mysql`.
+
+### macOS (con Homebrew)
+
+```bash
+brew install mysql
+brew services start mysql
+mysql_secure_installation
+```
+
+`mysql_secure_installation` te guia para poner contrasena al usuario `root` y asegurar
+la instalacion.
+
+### Windows
+
+Descarga el **MySQL Installer** desde la pagina oficial
+(https://dev.mysql.com/downloads/installer/), elige "Server only" (o "Developer Default"
+si tambien quieres MySQL Workbench) y sigue el asistente. Durante la instalacion te pedira
+definir la contrasena del usuario `root`; anotala, la necesitaras en el siguiente paso.
+
+### Verifica que MySQL funciona
+
+Desde una terminal, con el servidor arrancado:
+
+```bash
+mysql -u root -p -h 127.0.0.1 -P 3306
+```
+
+Si te pide la contrasena y te deja entrar (`mysql>`), todo esta listo para el siguiente
+paso. No hace falta crear la base de datos `coche_db` a mano, la aplicacion la crea sola.
+
 ## Configura tu base de datos
 
 La aplicacion se conecta a MySQL en `localhost:3306`, a una base de datos llamada

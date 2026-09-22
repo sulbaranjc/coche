@@ -1,0 +1,11 @@
+# Plantilla de configuracion local. NO se sube a git (application-local.properties esta en .gitignore).
+#
+# Como usarla:
+#   1. Copia este archivo en la misma carpeta con el nombre "application-local.properties"
+#      (sin ".example").
+#   2. Sustituye los valores de abajo por el usuario y password de TU MySQL local.
+#   3. Listo: application.properties ya activa el perfil "local" por defecto, asi que
+#      estos valores se aplican automaticamente al arrancar la app.
+
+spring.datasource.username=root
+spring.datasource.password=pon-aqui-tu-password

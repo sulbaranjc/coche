@@ -1,5 +1,8 @@
 HELP.md
 target/
+
+### Configuracion local con credenciales (no se comparte) ###
+src/main/resources/application-local.properties
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

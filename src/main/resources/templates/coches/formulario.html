@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Formulario de coche</title>
+</head>
+<body>
+<main>
+
+    <h1 class="h3 mb-4" th:text="${coche.id} != null ? 'Editar coche' : 'Nuevo coche'"></h1>
+
+    <form method="post" th:action="@{/coches/guardar}" th:object="${coche}" class="row g-3">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="col-md-6">
+            <label class="form-label" for="marca">Marca</label>
+            <input type="text" class="form-control" id="marca" th:field="*{marca}"
+                   th:classappend="${#fields.hasErrors('marca')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}"></div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label" for="modelo">Modelo</label>
+            <input type="text" class="form-control" id="modelo" th:field="*{modelo}"
+                   th:classappend="${#fields.hasErrors('modelo')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="matricula">Matricula</label>
+            <input type="text" class="form-control" id="matricula" th:field="*{matricula}"
+                   th:classappend="${#fields.hasErrors('matricula')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="anioFabricacion">Anio de fabricacion</label>
+            <input type="number" class="form-control" id="anioFabricacion" th:field="*{anioFabricacion}"
+                   th:classappend="${#fields.hasErrors('anioFabricacion')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('anioFabricacion')}" th:errors="*{anioFabricacion}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="color">Color</label>
+            <input type="text" class="form-control" id="color" th:field="*{color}"
+                   th:classappend="${#fields.hasErrors('color')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="precio">Precio (€)</label>
+            <input type="number" step="0.01" class="form-control" id="precio" th:field="*{precio}"
+                   th:classappend="${#fields.hasErrors('precio')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="kilometraje">Kilometraje</label>
+            <input type="number" class="form-control" id="kilometraje" th:field="*{kilometraje}"
+                   th:classappend="${#fields.hasErrors('kilometraje')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('kilometraje')}" th:errors="*{kilometraje}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="combustible">Combustible</label>
+            <select class="form-select" id="combustible" th:field="*{combustible}"
+                    th:classappend="${#fields.hasErrors('combustible')} ? 'is-invalid'">
+                <option value="">Selecciona...</option>
+                <option th:each="opcion : ${combustibles}" th:value="${opcion}" th:text="${opcion}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('combustible')}" th:errors="*{combustible}"></div>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label" for="transmision">Transmision</label>
+            <select class="form-select" id="transmision" th:field="*{transmision}"
+                    th:classappend="${#fields.hasErrors('transmision')} ? 'is-invalid'">
+                <option value="">Selecciona...</option>
+                <option th:each="opcion : ${transmisiones}" th:value="${opcion}" th:text="${opcion}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('transmision')}" th:errors="*{transmision}"></div>
+        </div>
+
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a class="btn btn-outline-secondary" th:href="@{/coches}">Cancelar</a>
+        </div>
+
+    </form>
+
+</main>
+</body>
+</html>

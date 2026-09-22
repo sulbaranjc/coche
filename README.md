@@ -86,45 +86,95 @@ definir la contrasena del usuario `root`; anotala, la necesitaras en el siguient
 
 ### Verifica que MySQL funciona
 
-Desde una terminal, con el servidor arrancado:
+Desde una terminal (en Windows, la ventana de **cmd**), con el servidor arrancado:
 
-```bash
+```
 mysql -u root -p -h 127.0.0.1 -P 3306
 ```
 
 Si te pide la contrasena y te deja entrar (`mysql>`), todo esta listo para el siguiente
-paso. No hace falta crear la base de datos `coche_db` a mano, la aplicacion la crea sola.
+paso.
+
+> En Windows, si `cmd` no reconoce el comando `mysql` ("no se reconoce como un comando
+> interno o externo"), es que la carpeta `bin` de MySQL no esta en el PATH. Búscala
+> (normalmente `C:\Program Files\MySQL\MySQL Server 8.0\bin`) y usa la ruta completa,
+> por ejemplo:
+> ```
+> "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql" -u root -p -h 127.0.0.1 -P 3306
+> ```
+
+## Crea el usuario de la aplicacion
+
+Por buena practica, la aplicacion **no** deberia conectarse con el usuario `root` de
+MySQL (que tiene permisos sobre todo el servidor), sino con un usuario propio que solo
+pueda tocar la base de datos `coche_db`. Vamos a crearlo.
+
+Entra a MySQL como `root` (mismo comando de antes) y, dentro del prompt `mysql>`,
+ejecuta:
+
+```sql
+CREATE DATABASE IF NOT EXISTS coche_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'coche_app'@'localhost' IDENTIFIED BY 'coche_app_pwd';
+GRANT ALL PRIVILEGES ON coche_db.* TO 'coche_app'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+Esto crea:
+- La base de datos `coche_db` (aunque la aplicacion tambien sabe crearla sola si no
+  existe, hacerlo aqui te asegura que el usuario nuevo tiene permisos sobre ella desde
+  el principio).
+- Un usuario `coche_app` con password `coche_app_pwd` (cambia esa password por la que
+  quieras) que **solo** tiene permisos sobre `coche_db`, no sobre el resto del servidor.
+
+Este es el usuario y password que vas a usar en el siguiente paso, no `root`.
 
 ## Configura tu base de datos
 
-La aplicacion se conecta a MySQL en `localhost:3306`, a una base de datos llamada
-`coche_db` que se **crea sola** la primera vez que arrancas la app (no hace falta
-crearla a mano). Lo unico que necesitas es decirle a la aplicacion **tu** usuario y
-password de MySQL, sin escribirlos dentro del codigo que se sube a git.
+La aplicacion se conecta a MySQL en `localhost:3306`, a la base de datos `coche_db` que
+creaste en el paso anterior. Ahora hay que decirle a la aplicacion el usuario
+`coche_app` y su password, sin escribirlos dentro del codigo que se sube a git.
 
 Tienes dos formas de hacerlo, elige la que prefieras:
 
 ### Opcion A (recomendada en clase): archivo `application-local.properties`
 
-1. Copia la plantilla:
+1. Copia la plantilla.
+
+   En Windows (**cmd**):
+   ```
+   copy src\main\resources\application-local.properties.example src\main\resources\application-local.properties
+   ```
+
+   En macOS / Linux:
    ```bash
    cp src/main/resources/application-local.properties.example src/main/resources/application-local.properties
    ```
-2. Abre `src/main/resources/application-local.properties` y pon tu usuario y password reales:
+
+2. Abre `src/main/resources/application-local.properties` (con el Bloc de notas, VS Code,
+   IntelliJ...) y pon el usuario y password que creaste antes:
    ```properties
-   spring.datasource.username=root
-   spring.datasource.password=tu-password-de-mysql
+   spring.datasource.username=coche_app
+   spring.datasource.password=coche_app_pwd
    ```
 3. Listo. Este archivo esta en `.gitignore`, asi que **nunca se sube al repositorio** y
    cada alumno mantiene sus propias credenciales sin pisar las de sus companeros.
 
 ### Opcion B: variables de entorno
 
-Si no quieres crear el archivo, puedes exportar las variables antes de arrancar:
+Si no quieres crear el archivo, puedes definir las variables antes de arrancar.
 
+En Windows (**cmd**) — ojo, `set` solo dura mientras esa ventana de cmd este abierta:
+```
+set DB_USERNAME=coche_app
+set DB_PASSWORD=coche_app_pwd
+mvnw.cmd spring-boot:run
+```
+
+En macOS / Linux:
 ```bash
-export DB_USERNAME=root
-export DB_PASSWORD=tu-password-de-mysql
+export DB_USERNAME=coche_app
+export DB_PASSWORD=coche_app_pwd
 ./mvnw spring-boot:run
 ```
 
@@ -136,6 +186,12 @@ export DB_PASSWORD=tu-password-de-mysql
 Con MySQL corriendo en tu maquina (`localhost:3306`) y las credenciales configuradas
 como se explica arriba:
 
+En Windows (**cmd**), desde la carpeta del proyecto:
+```
+mvnw.cmd spring-boot:run
+```
+
+En macOS / Linux:
 ```bash
 ./mvnw spring-boot:run
 ```

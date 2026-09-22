@@ -3,9 +3,10 @@
 # Como usarla:
 #   1. Copia este archivo en la misma carpeta con el nombre "application-local.properties"
 #      (sin ".example").
-#   2. Sustituye los valores de abajo por el usuario y password de TU MySQL local.
+#   2. Sustituye los valores de abajo por el usuario "coche_app" y el password que le
+#      pusiste al crearlo (ver README.md -> "Crea el usuario de la aplicacion").
 #   3. Listo: application.properties ya activa el perfil "local" por defecto, asi que
 #      estos valores se aplican automaticamente al arrancar la app.
 
-spring.datasource.username=root
+spring.datasource.username=coche_app
 spring.datasource.password=pon-aqui-tu-password

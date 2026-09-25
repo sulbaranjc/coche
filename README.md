@@ -211,3 +211,29 @@ Al arrancar por primera vez, `schema.sql` crea la tabla `coche` y `data.sql` ins
 | Formulario edicion    | `/coches/editar/{id}`         | GET    |
 | Guardar (crear/editar) | `/coches/guardar`            | POST   |
 | Eliminar            | `/coches/eliminar/{id}`        | POST   |
+
+## Problemas frecuentes
+
+### `Public Key Retrieval is not allowed`
+
+Si al arrancar la aplicacion falla con este error:
+
+```
+java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+```
+
+es porque MySQL 8 autentica por defecto con `caching_sha2_password` y, al conectarnos
+sin SSL (`useSSL=false`), el driver necesita pedirle al servidor su clave publica para
+enviar la password cifrada. Eso esta bloqueado salvo que se permita de forma explicita.
+
+La URL de conexion de `application.properties` ya incluye el parametro que lo permite:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/coche_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+```
+
+Si ves este error, comprueba que tu URL tiene `allowPublicKeyRetrieval=true` (por
+ejemplo, si la has sobrescrito en tu `application-local.properties`).
+
+> `allowPublicKeyRetrieval=true` es adecuado para desarrollo en local. En produccion lo
+> correcto es usar SSL en la conexion en lugar de desactivarlo.

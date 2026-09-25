@@ -3,12 +3,15 @@
 Aplicacion de ejemplo para aprender a construir un **monolito con Java y Spring Boot**:
 un CRUD completo (Crear, Listar, Editar, Eliminar) sobre la entidad `Coche`, con capas
 de Controller, Service y Repository, vistas con Thymeleaf y Bootstrap 5, y persistencia
-en MySQL.
+en MySQL con **JDBC puro** (`JdbcTemplate`): las consultas SQL se escriben a mano.
+
+> Esta es la rama `jdbc`. La rama `jpa` tiene el mismo CRUD pero con Spring Data JPA,
+> para comparar ambos enfoques.
 
 ## Tecnologias
 
 - Java 21
-- Spring Boot 4.1 (Web MVC, Data JPA, Validation, Thymeleaf)
+- Spring Boot 4.1 (Web MVC, JDBC, Validation, Thymeleaf)
 - MySQL 8
 - Bootstrap 5.3 (via CDN, sin CSS propio)
 - Maven (con wrapper `mvnw` incluido, no hace falta tener Maven instalado)
@@ -17,8 +20,8 @@ en MySQL.
 
 ```
 src/main/java/com/example/coche/
-├── model/         Coche (entidad JPA), Combustible y Transmision (enums)
-├── repository/    CocheRepository (Spring Data JPA)
+├── model/         Coche (POJO simple), Combustible y Transmision (enums)
+├── repository/    CocheRepository (interfaz) + CocheRepositoryImpl (SQL con JdbcTemplate)
 ├── service/       CocheService (interfaz) + service/impl/CocheServiceImpl
 ├── controller/    CocheController (CRUD), HomeController
 └── exception/     Excepcion de "coche no encontrado" + manejador global

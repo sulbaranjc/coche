@@ -73,21 +73,15 @@
 
         <div class="col-md-4">
             <label class="form-label" for="combustible">Combustible</label>
-            <select class="form-select" id="combustible" th:field="*{combustible}"
-                    th:classappend="${#fields.hasErrors('combustible')} ? 'is-invalid'">
-                <option value="">Selecciona...</option>
-                <option th:each="opcion : ${combustibles}" th:value="${opcion}" th:text="${opcion}"></option>
-            </select>
+            <input type="text" class="form-control" id="combustible" th:field="*{combustible}"
+                   th:classappend="${#fields.hasErrors('combustible')} ? 'is-invalid'">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('combustible')}" th:errors="*{combustible}"></div>
         </div>
 
         <div class="col-md-4">
             <label class="form-label" for="transmision">Transmision</label>
-            <select class="form-select" id="transmision" th:field="*{transmision}"
-                    th:classappend="${#fields.hasErrors('transmision')} ? 'is-invalid'">
-                <option value="">Selecciona...</option>
-                <option th:each="opcion : ${transmisiones}" th:value="${opcion}" th:text="${opcion}"></option>
-            </select>
+            <input type="text" class="form-control" id="transmision" th:field="*{transmision}"
+                   th:classappend="${#fields.hasErrors('transmision')} ? 'is-invalid'">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('transmision')}" th:errors="*{transmision}"></div>
         </div>
 

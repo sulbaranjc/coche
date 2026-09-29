@@ -20,7 +20,7 @@ en MySQL con **JDBC puro** (`JdbcTemplate`): las consultas SQL se escriben a man
 
 ```
 src/main/java/com/example/coche/
-├── model/         Coche (POJO simple), Combustible y Transmision (enums)
+├── model/         Coche (POJO simple)
 ├── repository/    CocheRepository (interfaz) + CocheRepositoryImpl (SQL con JdbcTemplate)
 ├── service/       CocheService (interfaz) + service/impl/CocheServiceImpl
 ├── controller/    CocheController (CRUD), HomeController

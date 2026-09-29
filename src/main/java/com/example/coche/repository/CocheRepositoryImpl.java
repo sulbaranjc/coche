@@ -1,8 +1,6 @@
 package com.example.coche.repository;
 
 import com.example.coche.model.Coche;
-import com.example.coche.model.Combustible;
-import com.example.coche.model.Transmision;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -99,8 +97,8 @@ public class CocheRepositoryImpl implements CocheRepository {
                 coche.getColor(),
                 coche.getPrecio(),
                 coche.getKilometraje(),
-                coche.getCombustible().name(),
-                coche.getTransmision().name(),
+                coche.getCombustible(),
+                coche.getTransmision(),
                 coche.getId());
 
         return coche;
@@ -114,8 +112,8 @@ public class CocheRepositoryImpl implements CocheRepository {
         ps.setString(5, coche.getColor());
         ps.setBigDecimal(6, coche.getPrecio());
         ps.setInt(7, coche.getKilometraje());
-        ps.setString(8, coche.getCombustible().name());
-        ps.setString(9, coche.getTransmision().name());
+        ps.setString(8, coche.getCombustible());
+        ps.setString(9, coche.getTransmision());
     }
 
     private RowMapper<Coche> cocheRowMapper() {
@@ -129,8 +127,8 @@ public class CocheRepositoryImpl implements CocheRepository {
             coche.setColor(rs.getString("color"));
             coche.setPrecio(rs.getBigDecimal("precio"));
             coche.setKilometraje(rs.getInt("kilometraje"));
-            coche.setCombustible(Combustible.valueOf(rs.getString("combustible")));
-            coche.setTransmision(Transmision.valueOf(rs.getString("transmision")));
+            coche.setCombustible(rs.getString("combustible"));
+            coche.setTransmision(rs.getString("transmision"));
             return coche;
         };
     }

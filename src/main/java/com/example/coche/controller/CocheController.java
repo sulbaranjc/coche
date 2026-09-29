@@ -1,8 +1,6 @@
 package com.example.coche.controller;
 
 import com.example.coche.model.Coche;
-import com.example.coche.model.Combustible;
-import com.example.coche.model.Transmision;
 import com.example.coche.service.CocheService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -34,24 +32,20 @@ public class CocheController {
     @GetMapping("/nuevo")
     public String formularioNuevo(Model model) {
         model.addAttribute("coche", new Coche());
-        agregarListasDeApoyo(model);
         return "coches/formulario";
     }
 
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable Long id, Model model) {
         model.addAttribute("coche", cocheService.buscarPorId(id));
-        agregarListasDeApoyo(model);
         return "coches/formulario";
     }
 
     @PostMapping("/guardar")
     public String guardar(@Valid @ModelAttribute("coche") Coche coche,
                            BindingResult resultado,
-                           Model model,
                            RedirectAttributes redirectAttributes) {
         if (resultado.hasErrors()) {
-            agregarListasDeApoyo(model);
             return "coches/formulario";
         }
         cocheService.guardar(coche);
@@ -64,10 +58,5 @@ public class CocheController {
         cocheService.eliminar(id);
         redirectAttributes.addFlashAttribute("mensaje", "Coche eliminado correctamente.");
         return "redirect:/coches";
-    }
-
-    private void agregarListasDeApoyo(Model model) {
-        model.addAttribute("combustibles", Combustible.values());
-        model.addAttribute("transmisiones", Transmision.values());
     }
 }

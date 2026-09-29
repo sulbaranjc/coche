@@ -43,11 +43,13 @@ public class Coche {
     @PositiveOrZero(message = "El kilometraje no puede ser negativo")
     private Integer kilometraje;
 
-    @NotNull(message = "El combustible es obligatorio")
-    private Combustible combustible;
+    @NotBlank(message = "El combustible es obligatorio")
+    @Size(max = 20, message = "El combustible no puede superar los 20 caracteres")
+    private String combustible;
 
-    @NotNull(message = "La transmision es obligatoria")
-    private Transmision transmision;
+    @NotBlank(message = "La transmision es obligatoria")
+    @Size(max = 20, message = "La transmision no puede superar los 20 caracteres")
+    private String transmision;
 
     public Coche() {
     }
@@ -116,19 +118,19 @@ public class Coche {
         this.kilometraje = kilometraje;
     }
 
-    public Combustible getCombustible() {
+    public String getCombustible() {
         return combustible;
     }
 
-    public void setCombustible(Combustible combustible) {
+    public void setCombustible(String combustible) {
         this.combustible = combustible;
     }
 
-    public Transmision getTransmision() {
+    public String getTransmision() {
         return transmision;
     }
 
-    public void setTransmision(Transmision transmision) {
+    public void setTransmision(String transmision) {
         this.transmision = transmision;
     }
 }

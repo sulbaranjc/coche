@@ -45,13 +45,6 @@ public class CocheRepositoryImpl implements CocheRepository {
     }
 
     @Override
-    public boolean existsByMatricula(String matricula) {
-        String sql = "SELECT COUNT(*) FROM coche WHERE matricula = ?";
-        Integer total = jdbcTemplate.queryForObject(sql, Integer.class, matricula);
-        return total != null && total > 0;
-    }
-
-    @Override
     public Coche save(Coche coche) {
         if (coche.getId() == null) {
             return insertar(coche);

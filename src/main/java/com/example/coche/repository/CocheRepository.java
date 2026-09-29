@@ -13,8 +13,6 @@ public interface CocheRepository {
 
     boolean existsById(Long id);
 
-    boolean existsByMatricula(String matricula);
-
     Coche save(Coche coche);
 
     void deleteById(Long id);

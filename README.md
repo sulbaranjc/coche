@@ -29,7 +29,7 @@ src/main/java/com/example/coche/
 src/main/resources/
 ├── schema.sql     Crea la tabla 'coche'
 ├── data.sql       Inserta 10 coches de ejemplo
-└── templates/     Vistas Thymeleaf (listado y formulario) + layout compartido
+└── templates/     Vistas Thymeleaf (listado y formulario), cada una como página HTML completa
 ```
 
 ## Instalar MySQL

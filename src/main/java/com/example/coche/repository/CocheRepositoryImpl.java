@@ -16,10 +16,6 @@ import java.util.Optional;
 @Repository
 public class CocheRepositoryImpl implements CocheRepository {
 
-    private static final String SQL_SELECT_BASE =
-            "SELECT id, marca, modelo, matricula, anio_fabricacion, color, precio, kilometraje, combustible, transmision "
-                    + "FROM coche";
-
     private final JdbcTemplate jdbcTemplate;
 
     public CocheRepositoryImpl(JdbcTemplate jdbcTemplate) {
@@ -28,13 +24,15 @@ public class CocheRepositoryImpl implements CocheRepository {
 
     @Override
     public List<Coche> findAll() {
-        String sql = SQL_SELECT_BASE + " ORDER BY id";
+        String sql = "SELECT id, marca, modelo, matricula, anio_fabricacion, color, precio, kilometraje, combustible, transmision "
+                + "FROM coche ORDER BY id";
         return jdbcTemplate.query(sql, cocheRowMapper());
     }
 
     @Override
     public Optional<Coche> findById(Long id) {
-        String sql = SQL_SELECT_BASE + " WHERE id = ?";
+        String sql = "SELECT id, marca, modelo, matricula, anio_fabricacion, color, precio, kilometraje, combustible, transmision "
+                + "FROM coche WHERE id = ?";
         List<Coche> resultado = jdbcTemplate.query(sql, cocheRowMapper(), id);
         return resultado.stream().findFirst();
     }
